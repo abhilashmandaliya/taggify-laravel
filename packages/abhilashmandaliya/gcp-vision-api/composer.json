@@ -1,0 +1,13 @@
+{
+    "name": "abhilashmandaliya/gcp-vision-api",
+    "description": "gcp vision api integration for laravel",
+    "require": {
+        "google/cloud-vision": "^0.9.0"
+    },
+    "authors": [
+        {
+            "name": "Abhilash Mandaliya",
+            "email": "abhilashmandaliya@gmail.com"
+        }
+    ]
+}
