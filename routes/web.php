@@ -12,5 +12,11 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    phpinfo();
 });
+
+Route::get('/upload', function() {
+    return view('img_upload');
+});
+
+Route::Resource('/user_contents', 'UserContentController');

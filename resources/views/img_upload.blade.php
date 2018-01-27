@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <form action="http://172.16.23.158/taggify/public/test_vision_api" method="post" enctype="multipart/form-data">
+        <input type="file" name="content" />
+        {{ csrf_field() }}
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
