@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\UserCategory;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -39,6 +40,12 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
+    public function index()
+    {
+        $user_categories = UserCategory::all();
+        return view('auth.register', ['user_categories' => $user_categories]);
+    }
+
     /**
      * Get a validator for an incoming registration request.
      *
@@ -51,6 +58,7 @@ class RegisterController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'user_category_id' => 'required|exists:user_categories,id',
         ]);
     }
 
@@ -63,6 +71,7 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
+            'user_category_id' => $data['user_category_id'],
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),

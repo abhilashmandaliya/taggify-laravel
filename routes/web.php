@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    phpinfo();
+    return view('welcome');
 });
 
 Route::get('/upload', function() {
@@ -20,3 +20,8 @@ Route::get('/upload', function() {
 });
 
 Route::Resource('/user_contents', 'UserContentController');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/register', 'Auth\RegisterController@index')->name('register');
