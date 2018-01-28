@@ -17,6 +17,7 @@ class UserContentController extends Controller
      */
     public function index()
     {
+        return view('user_contents.index');
         $userContent = DB::connection('mongodb')->collection('user_contents')->get();
         return json_encode($userContent);
     }
