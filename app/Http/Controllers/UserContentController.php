@@ -17,9 +17,9 @@ class UserContentController extends Controller
      */
     public function index()
     {
-        return view('user_contents.index');
-        $userContent = DB::connection('mongodb')->collection('user_contents')->get();
-        return json_encode($userContent);
+        $unique_tags = DB::connection('mongodb')->collection('user_contents')->distinct('tags')->get();
+        
+        return view('user_contents.index', ['unique_tags' => $unique_tags]);
     }
 
     /**
