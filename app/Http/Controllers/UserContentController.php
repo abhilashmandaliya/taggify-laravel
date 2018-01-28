@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\UserContent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+use GCPVisionAPI;
 
 class UserContentController extends Controller
 {
@@ -37,7 +39,24 @@ class UserContentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $gcp_vision_api = new GCPVisionAPI();
+        $fileName = $request->file('content')->store('content');
+        $tags = array_merge($request->input('tags'), $gcp_vision_api->getImageLabels($fileName));
+        $user_id = $request->input('user_id');
+        $created_at = Carbon::now()->toDateTimeString();
+        $updated_at = $created_at;
+
+        $user_content = [
+            'user_id' => $user_id,
+            'file_name' => $fileName,
+            'tags' => $tags,
+            'created_at' => $created_at,
+            'updated_at' => $updated_at
+        ];
+
+        $id = UserContent::create($user_content)->id;
+
+        return json_encode(['id' => $id]);
     }
 
     /**

@@ -10,9 +10,14 @@ use Illuminate\Support\Facades\Storage;
 class ImageLabelController extends Controller
 {
     /**
-     * @var String
+     * @var string
      */
     private $keyFile;
+
+    /**
+     * @var Google\Cloud\Vision\VisionClient
+     */
+    private $client;
 
     /**
      * Instanciate an Object
@@ -20,10 +25,46 @@ class ImageLabelController extends Controller
     public function __construct()
     {
         $this->keyFile = env("GOOGLE_APPLICATION_CREDENTIALS", NULL);
+        $this->vision = new VisionClient([
+            'keyFilePath' => $this->keyFile,
+        ]);
+    }
+    
+    /**
+     * Get image labels using Google Cloud Vision API
+     * 
+     * @param string $filename Name of the file to be processed
+     * @return array
+     */
+    public function getImageLabels(String $fileName)
+    {
+        $fileName = strrev(implode(strrev('\storage\app\\'), explode(strrev('\public'), strrev(public_path()), 2))).$fileName;
+        
+        # Prepare the image to be annotated
+        $image = $this->vision->image(fopen($fileName, 'r'), [
+            'LABEL_DETECTION'
+        ]); 
+
+        # Performs label detection on the image file
+        $labels = $this->vision->annotate($image)->labels();
+        
+        $labels_array = array();
+
+        foreach ($labels as $label) {
+           array_push($labels_array, $label->description());
+        }
+
+        return $labels_array;
     }
 
+    /**
+     * For test purpose only
+     */
     public function printLabels(Request $request)
     {
+        $request->file('content')->store('content');
+        return json_encode(['data' => $request->all(), 'hasFile' => request()->hasFile('content')]);
+
         $fileName;
 
         if(request()->hasFile('content'))

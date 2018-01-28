@@ -19,9 +19,10 @@ Route::get('/upload', function() {
     return view('img_upload');
 });
 
-Route::Resource('/user_contents', 'UserContentController');
-Auth::routes();
+//Route::group(['middleware' => 'auth'], function() {
+    Route::Resource('/user_contents', 'UserContentController');
+    Route::get('/home', 'HomeController@index')->name('home');        
+    Route::get('/register', 'Auth\RegisterController@index')->name('register');
+//});
 
-Route::get('/home', 'HomeController@index')->name('home');
-
-Route::get('/register', 'Auth\RegisterController@index')->name('register');
+//Auth::routes();

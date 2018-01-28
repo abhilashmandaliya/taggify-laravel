@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="http://172.16.23.158/taggify/public/test_vision_api" method="post" enctype="multipart/form-data">
+    <form action="http://10.42.0.40/taggify-laravel/public/test_vision_api" method="post" enctype="multipart/form-data">
         <input type="file" name="content" />
         {{ csrf_field() }}
         <button type="submit">Submit</button>
