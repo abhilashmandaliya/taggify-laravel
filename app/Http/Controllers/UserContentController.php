@@ -10,6 +10,19 @@ use GCPVisionAPI;
 
 class UserContentController extends Controller
 {
+
+    /**
+     * Limit for paginated data
+     * 
+     * @var int $limit
+     */
+    private $limit;
+
+    public function __construct()
+    {
+        $this->limit = 10;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -18,8 +31,9 @@ class UserContentController extends Controller
     public function index()
     {
         $unique_tags = DB::connection('mongodb')->collection('user_contents')->distinct('tags')->get();
-        
-        return view('user_contents.index', ['unique_tags' => $unique_tags]);
+        $user_contents = DB::connection('mongodb')->collection('user_contents')->paginate($this->limit, ['file_name', 'tags']);
+
+        return view('user_contents.index', ['unique_tags' => $unique_tags, 'user_contents' => $user_contents]);
     }
 
     /**
@@ -41,8 +55,9 @@ class UserContentController extends Controller
     public function store(Request $request)
     {
         $gcp_vision_api = new GCPVisionAPI();
-        $fileName = $request->file('content')->store('content');
-        $tags = array_merge($request->input('tags'), $gcp_vision_api->getImageLabels($fileName));
+        $fileName = $request->file('content')->store('public/content');
+        //$tags = array_merge($request->input('tags'), $gcp_vision_api->getImageLabels($fileName));
+        $tags = $request->input('tags');
         $user_id = $request->input('user_id');
         $created_at = Carbon::now()->toDateTimeString();
         $updated_at = $created_at;

@@ -48,61 +48,16 @@
     <br/>
     <!-- First Photo Grid-->
     <div class="w3-row-padding">
-        <div class="w3-third w3-container w3-margin-bottom">
-            <img src="https://www.w3schools.com/w3images/avatar_g2.jpg" alt="Norway" style="width:100%" class="w3-hover-opacity">
-            <div class="w3-container w3-white">
-                <p><b>Lorem Ipsum</b></p>
-                <p>Praesent tincidunt sed tellus ut rutrum. Sed vitae justo condimentum, porta lectus vitae, ultricies congue gravida diam non fringilla.</p>
+        @foreach($user_contents as $user_content)
+            <div class="w3-third w3-container w3-margin-bottom">
+                <img src="{{ asset( preg_replace('/public/', 'storage', $user_content['file_name'], 1) ) }}" alt="Norway" style="width:100%" class="w3-hover-opacity">
+                <div class="w3-container w3-white">
+                    @foreach($user_content['tags'] as $tag)
+                        #{{ $tag }}&nbsp;
+                    @endforeach
+                </div>
             </div>
-        </div>
-        <div class="w3-third w3-container w3-margin-bottom">
-            <img src="https://www.w3schools.com/w3images/avatar_g2.jpg" alt="Norway" style="width:100%" class="w3-hover-opacity">
-            <div class="w3-container w3-white">
-                <p><b>Lorem Ipsum</b></p>
-                <p>Praesent tincidunt sed tellus ut rutrum. Sed vitae justo condimentum, porta lectus vitae, ultricies congue gravida diam non fringilla.</p>
-            </div>
-        </div>
-        <div class="w3-third w3-container">
-            <img src="https://www.w3schools.com/w3images/avatar_g2.jpg" alt="Norway" style="width:100%" class="w3-hover-opacity">
-            <div class="w3-container w3-white">
-                <p><b>Lorem Ipsum</b></p>
-                <p>Praesent tincidunt sed tellus ut rutrum. Sed vitae justo condimentum, porta lectus vitae, ultricies congue gravida diam non fringilla.</p>
-            </div>
-        </div>
-    </div>
-    <!-- Second Photo Grid-->
-    <div class="w3-row-padding">
-        <div class="w3-third w3-container w3-margin-bottom">
-            <img src="https://www.w3schools.com/w3images/avatar_g2.jpg" alt="Norway" style="width:100%" class="w3-hover-opacity">
-            <div class="w3-container w3-white">
-                <p><b>Lorem Ipsum</b></p>
-                <p>Praesent tincidunt sed tellus ut rutrum. Sed vitae justo condimentum, porta lectus vitae, ultricies congue gravida diam non fringilla.</p>
-            </div>
-        </div>
-        <div class="w3-third w3-container w3-margin-bottom">
-            <img src="https://www.w3schools.com/w3images/avatar_g2.jpg" alt="Norway" style="width:100%" class="w3-hover-opacity">
-            <div class="w3-container w3-white">
-                <p><b>Lorem Ipsum</b></p>
-                <p>Praesent tincidunt sed tellus ut rutrum. Sed vitae justo condimentum, porta lectus vitae, ultricies congue gravida diam non fringilla.</p>
-            </div>
-        </div>
-        <div class="w3-third w3-container">
-            <img src="https://www.w3schools.com/w3images/avatar_g2.jpg" alt="Norway" style="width:100%" class="w3-hover-opacity">
-            <div class="w3-container w3-white">
-                <p><b>Lorem Ipsum</b></p>
-                <p>Praesent tincidunt sed tellus ut rutrum. Sed vitae justo condimentum, porta lectus vitae, ultricies congue gravida diam non fringilla.</p>
-            </div>
-        </div>
-    </div>
-    <!-- Footer -->
-
-    <div class="w3-black w3-center w3-padding-24">
-        <div class="w3-panel w3-large">
-            <i class="fa fa-facebook-official w3-hover-opacity"></i>
-            <i class="fa fa-instagram w3-hover-opacity"></i>
-            <i class="fa fa-twitter w3-hover-opacity"></i>
-            <i class="fa fa-linkedin w3-hover-opacity"></i>
-        </div>
+        @endforeach
     </div>
     <!-- End page content -->
 </div>
