@@ -178,6 +178,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Jenssegers\Mongodb\MongodbServiceProvider::class,
+        Jenssegers\Agent\AgentServiceProvider::class,
 
     ],
 
@@ -229,6 +230,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Moloquent' => Jenssegers\Mongodb\Eloquent\Model::class,
         'GCPVisionAPI' => AbhilashMandaliya\GCPVisionAPI\ImageLabelController::class,
+        'Agent' => Jenssegers\Agent\Facades\Agent::class,
     ],
 
 ];

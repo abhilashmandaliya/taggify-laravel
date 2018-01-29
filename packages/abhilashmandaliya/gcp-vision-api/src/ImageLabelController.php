@@ -62,8 +62,6 @@ class ImageLabelController extends Controller
      */
     public function printLabels(Request $request)
     {
-        $request->file('content')->store('content');
-        return json_encode(['data' => $request->all(), 'hasFile' => request()->hasFile('content')]);
 
         $fileName;
 

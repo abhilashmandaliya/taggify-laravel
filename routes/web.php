@@ -25,4 +25,4 @@ Route::get('/upload', function() {
     Route::get('/register', 'Auth\RegisterController@index')->name('register');
 //});
 
-//Auth::routes();
+Auth::routes();

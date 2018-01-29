@@ -7,6 +7,7 @@ use App\UserCategory;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -76,5 +77,34 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+    }
+
+    public function register(Request $request)
+    {
+        $data = $request->all();
+        if(!array_key_exists('user_category_id', $data))
+        {
+            $user_category = UserCategory::where('name', 'Client')->first();            
+            $data['user_category_id'] = $user_category->id;
+        }
+        
+        $user = $this->create($data);
+
+        $device = $request->input('device');
+
+        if(is_null($device)) // web request
+        {
+            return response()->redirectTo('/home');
+        }
+        else if(strcasecmp($device, "android") === 0) // android request
+        {
+            $status = 200;
+            $message = "Registration Successfull";
+            return  json_encode([
+                                'status' => $status,
+                                'message' => $message,
+                                'data' => $user
+                                ]);
+        }
     }
 }
