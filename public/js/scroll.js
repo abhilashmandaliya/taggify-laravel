@@ -38,7 +38,7 @@ $(document).ready(function(){
     $grid.data('infiniteScroll').pageIndex = 0;
 
     $grid.infiniteScroll('loadNextPage');
-    
+
     var itemTemplateSrc = $('#photo-item-template').html();
 
     function getItemHTML( photo ) {
@@ -46,7 +46,7 @@ $(document).ready(function(){
     }
      
     function microTemplate( src, data ) {
-        return src.replace( /\{\{([\w\-_\.]+)\}\}/gi, function( match, key ) {
+        return src.replace( /\{([\w\-_\.]+)\}/gi, function( match, key ) {
             if(key === "file_name"){
                 data.file_name = data.file_name.replace('public', 'storage');
                 return data.file_name;                                        
