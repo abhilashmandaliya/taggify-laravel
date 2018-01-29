@@ -47,90 +47,26 @@
             text-align: center;
             color: #777;
             }
+            .text-on-img {
+                z-index: 100;
+                position: absolute;
+                float:right;
+                color: black;
+                font-size: 25px;
+                text-align: center;
+                position:absolute;
+                width:80%;
+                height:45%;
+                background-color:rgba(0,0,0,0.4);
+                top:20px;
+                left:24px;
+                line-height:150px;              
+            }
         </style>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="https://unpkg.com/infinite-scroll@3/dist/infinite-scroll.pkgd.js"></script>
         <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.js"></script>
-        <script>
-            $(document).ready(function(){
-                var $grid = $('.grid').masonry({
-                                itemSelector: '.photo-item',
-                                columnWidth: '.grid__col-sizer',
-                                gutter: '.grid__gutter-sizer',
-                                percentPosition: true,
-                                stagger: 30,
-                                // nicer reveal transition
-                                visibleStyle: { transform: 'translateY(0)', opacity: 1 },
-                                hiddenStyle: { transform: 'translateY(100px)', opacity: 0 },
-                            });
-
-                            // Get an API key for your demos at https://unsplash.com/developers
-                            var unsplashID = '9ad80b14098bcead9c7de952435e937cc3723ae61084ba8e729adb642daf0251';
-
-                            // get Masonry instance
-                            var msnry = $grid.data('masonry');
-
-                            $grid.infiniteScroll({
-                                // use path string with {{#}} for page number
-                                path: 'http://10.42.0.40/taggify-laravel/public/user_contents?page={{#}}',
-                                // load response as flat text
-                                responseType: 'text',
-                                outlayer: msnry,
-                                status: '.page-load-status',
-                                history: false,
-                            });
-
-                            $grid.on( 'load.infiniteScroll', function( event, response ) {
-                                console.log("in load.infiniteScroll : " + response );
-                                // parse response into JSON data
-                                var data = JSON.parse( response );
-                                // compile data into HTML
-                                var itemsHTML = data.data.map( getItemHTML ).join('');
-                                // convert HTML string into elements
-                                var $items = $( itemsHTML );
-                                // append item elements
-                                $items.imagesLoaded( function() {
-                                    console.log("in imagesLoaded : ");
-                                    $grid.infiniteScroll( 'appendItems', $items )
-                                    .masonry( 'appended', $items );
-                                })
-                            });
-
-                            // load initial page
-                            $grid.infiniteScroll('loadNextPage');
-
-                            //------------------//
-
-                            var itemTemplateSrc = $('#photo-item-template').html();
-
-                            function getItemHTML( photo ) {
-                                console.log("getItemHTML");
-                                return microTemplate( itemTemplateSrc, photo );
-                            }
-
-                            // micro templating, sort-of
-                            function microTemplate( src, data ) {
-                                // replace {{tags}} in source
-                                //console.log("in microTemplate : " + src);
-                                src = src.replace( /\{\{([\w\-_\.]+)\}\}/gi, function( match, key ) {
-                                    if(key === "file_name"){
-                                        data.file_name = data.file_name.replace('public', 'storage');
-                                        return data.file_name;                                        
-                                    }
-                                    else if(key === "tags"){
-                                        let tags = data.tags;
-                                        let aTags = "";
-                                        for(i = 0; i < tags.length; i++){
-                                            aTags += "<a target='_blank' href='" + tags[i] + "'>#" + tags[i] + "</a> ";
-                                        }
-                                        return aTags;
-                                    }
-                                });
-                                console.log(src);
-                                return src;
-                            }
-            });
-        </script>
+        <script src="http://10.42.0.40/taggify-laravel/public/js/scroll.js"></script>
     </head>
     <body>
         <div class="grid">
@@ -151,7 +87,7 @@
         <script type="text/html" id="photo-item-template">
             <div class="photo-item">
               <img class="photo-item__image" src="{{file_name}}" alt="photo-not-found" />
-              <p class="photo-item__caption">
+              <p class="photo-item__caption" style='background-color: rgba(0,0,0,0.6);'>
                     {{tags}}
               </p>
             </div>

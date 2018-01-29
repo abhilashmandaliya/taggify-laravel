@@ -20,7 +20,7 @@ class UserContentController extends Controller
 
     public function __construct()
     {
-        $this->limit = 5;
+        $this->limit = 7;
     }
 
     /**
@@ -36,6 +36,10 @@ class UserContentController extends Controller
         { 
             $data = request()->all();            
             $filter_tags = json_decode($data['tags']);
+            if(is_null($filter_tags))
+            {
+                $filter_tags = array($data['tags']);
+            }
             //$user_contents = DB::connection('mongodb')->collection('user_contents')->whereIn('tags', $filter_tags)->get();
             $user_contents = DB::connection('mongodb')->collection('user_contents')->whereIn('tags', $filter_tags)->paginate($this->limit);
             //return json_encode(DB::connection('mongodb')->getQueryLog());
@@ -85,7 +89,7 @@ class UserContentController extends Controller
 
         $id = UserContent::create($user_content)->id;
 
-        return json_encode(['id' => $id]);
+        return json_encode(['status' => 200, 'id' => $id]);
     }
 
     /**
