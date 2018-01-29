@@ -20,7 +20,7 @@ class UserContentController extends Controller
 
     public function __construct()
     {
-        $this->limit = 10;
+        $this->limit = 100;
     }
 
     /**
@@ -30,6 +30,8 @@ class UserContentController extends Controller
      */
     public function index()
     {
+        
+        request()->all();
         $unique_tags = DB::connection('mongodb')->collection('user_contents')->distinct('tags')->get();
         $user_contents = DB::connection('mongodb')->collection('user_contents')->paginate($this->limit, ['file_name', 'tags']);
 
@@ -56,8 +58,8 @@ class UserContentController extends Controller
     {
         $gcp_vision_api = new GCPVisionAPI();
         $fileName = $request->file('content')->store('public/content');
-        //$tags = array_merge($request->input('tags'), $gcp_vision_api->getImageLabels($fileName));
-        $tags = $request->input('tags');
+        $tags = $this->parseTags($request->input('tags'), $gcp_vision_api->getImageLabels($fileName));
+        //$tags = $this->parseTags($request->input('tags'));
         $user_id = $request->input('user_id');
         $created_at = Carbon::now()->toDateTimeString();
         $updated_at = $created_at;
@@ -119,4 +121,21 @@ class UserContentController extends Controller
     {
         //
     }
+
+    public function parseTags($mobile_tags_string, $gcp_tags = array())
+    {
+        $mobile_tags = array_merge(explode(" ", $mobile_tags_string), $gcp_tags);
+        $mobile_tags_final = array();
+
+        foreach ($mobile_tags as $tag) 
+        {
+            if(strlen($tag) > 0)
+            {
+                array_push($mobile_tags_final, preg_replace('/\s+/', '', $tag));
+            }
+        }
+
+        return array_values(array_unique(array_merge($mobile_tags_final, $gcp_tags)));
+    }
+
 }

@@ -53,7 +53,9 @@
                 <img src="{{ asset( preg_replace('/public/', 'storage', $user_content['file_name'], 1) ) }}" alt="Norway" style="width:100%" class="w3-hover-opacity">
                 <div class="w3-container w3-white">
                     @foreach($user_content['tags'] as $tag)
-                        #{{ $tag }}&nbsp;
+                        <a href="{{ URL::to('/') }}/user_contents?tag={{ $tag }}">
+                            #{{ $tag }}&nbsp;
+                        </a>
                     @endforeach
                 </div>
             </div>

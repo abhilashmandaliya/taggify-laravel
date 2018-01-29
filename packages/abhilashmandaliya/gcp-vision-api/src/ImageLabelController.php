@@ -40,6 +40,11 @@ class ImageLabelController extends Controller
     {
         $fileName = strrev(implode(strrev('\storage\app\\'), explode(strrev('\public'), strrev(public_path()), 2))).$fileName;
         
+        if(filesize($fileName) >= 4e+6)
+        {
+            return array();
+        }
+        
         # Prepare the image to be annotated
         $image = $this->vision->image(fopen($fileName, 'r'), [
             'LABEL_DETECTION'
@@ -68,7 +73,7 @@ class ImageLabelController extends Controller
         if(request()->hasFile('content'))
         {
             $fileName = $request->file('content')->store('content');
-            $fileName = strrev(implode(strrev('/storage/app/'), explode(strrev('/public'), strrev(public_path()), 2))).$fileName;
+            $fileName = strrev(implode(strrev('\storage\app\\'), explode(strrev('\public'), strrev(public_path()), 2))).$fileName;            
         }
         else
         {
