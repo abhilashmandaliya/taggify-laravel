@@ -14,6 +14,8 @@
     <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.2.13/dist/semantic.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.2.13/dist/components/dropdown.js"></script>
     <script src="http://10.42.0.40/taggify-laravel/public/js/taggify.js"></script>
+    <script src="http://10.42.0.40/taggify-laravel/public/js/jquery.waypoints.min.js"></script>
+    <script src="http://10.42.0.40/taggify-laravel/public/js/infinite.min.js"></script>
   <style>
     body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
     </style>

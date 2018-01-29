@@ -103,7 +103,9 @@ class RegisterController extends Controller
             return  json_encode([
                                 'status' => $status,
                                 'message' => $message,
-                                'data' => $user
+                                'data' => [
+                                        'user_id' => $user->id
+                                    ]
                                 ]);
         }
     }

@@ -62,9 +62,13 @@ class LoginController extends Controller
         {
             $status = $authenticated ? 200 : 401;
             $message = $authenticated ? "Login Successfull" : "Unauthorized";
+            $data = $authenticated ? Auth::user()->id : null;
             return  json_encode([
                                 'status' => $status,
-                                'message' => $message
+                                'message' => $message,
+                                'data' => [
+                                        'user_id' => $data
+                                    ]
                                 ]);
         }
     }

@@ -46,7 +46,7 @@
     </header>
     <br/>
     <!-- First Photo Grid-->
-    <div class="w3-row-padding">
+    <div class="w3-row-padding infinite-container">
         @foreach($user_contents as $user_content)
             <div class="user-content w3-third w3-container w3-margin-bottom">
                 <img src="{{ asset( preg_replace('/public/', 'storage', $user_content['file_name'], 1) ) }}" alt="image-not-found" style="width:100%" class="w3-hover-opacity">

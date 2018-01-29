@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Page Title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://codepen.io/desandro/pen/owWLYz"/>
+        <style>
+            body {
+            font-family: sans-serif;
+            line-height: 1.4;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            }
+            .grid__col-sizer,
+            .photo-item {
+            width: 32%;
+            }
+            .grid__gutter-sizer {
+            width: 2%;
+            }
+            .photo-item {
+            margin-bottom: 10px;
+            float: left;
+            }
+            .photo-item__image {
+            display: block;
+            max-width: 100%;
+            }
+            .photo-item__caption {
+            position: absolute;
+            left: 10px;
+            bottom: 10px;
+            margin: 0;
+            }
+            .photo-item__caption a {
+            color: white;
+            font-size: 0.8em;
+            text-decoration: none;
+            }
+            .page-load-status {
+            display: none; /* hidden by default */
+            padding-top: 20px;
+            border-top: 1px solid #DDD;
+            text-align: center;
+            color: #777;
+            }
+        </style>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://unpkg.com/infinite-scroll@3/dist/infinite-scroll.pkgd.js"></script>
+        <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.js"></script>
+        <script>
+            $(document).ready(function(){
+                var $grid = $('.grid').masonry({
+                                itemSelector: '.photo-item',
+                                columnWidth: '.grid__col-sizer',
+                                gutter: '.grid__gutter-sizer',
+                                percentPosition: true,
+                                stagger: 30,
+                                // nicer reveal transition
+                                visibleStyle: { transform: 'translateY(0)', opacity: 1 },
+                                hiddenStyle: { transform: 'translateY(100px)', opacity: 0 },
+                            });
+
+                            // Get an API key for your demos at https://unsplash.com/developers
+                            var unsplashID = '9ad80b14098bcead9c7de952435e937cc3723ae61084ba8e729adb642daf0251';
+
+                            // get Masonry instance
+                            var msnry = $grid.data('masonry');
+
+                            $grid.infiniteScroll({
+                                // use path string with {{#}} for page number
+                                path: 'http://10.42.0.40/taggify-laravel/public/user_contents?page={{#}}',
+                                // load response as flat text
+                                responseType: 'text',
+                                outlayer: msnry,
+                                status: '.page-load-status',
+                                history: false,
+                            });
+
+                            $grid.on( 'load.infiniteScroll', function( event, response ) {
+                                console.log("in load.infiniteScroll : " + response );
+                                // parse response into JSON data
+                                var data = JSON.parse( response );
+                                // compile data into HTML
+                                var itemsHTML = data.data.map( getItemHTML ).join('');
+                                // convert HTML string into elements
+                                var $items = $( itemsHTML );
+                                // append item elements
+                                $items.imagesLoaded( function() {
+                                    console.log("in imagesLoaded : ");
+                                    $grid.infiniteScroll( 'appendItems', $items )
+                                    .masonry( 'appended', $items );
+                                })
+                            });
+
+                            // load initial page
+                            $grid.infiniteScroll('loadNextPage');
+
+                            //------------------//
+
+                            var itemTemplateSrc = $('#photo-item-template').html();
+
+                            function getItemHTML( photo ) {
+                                console.log("getItemHTML");
+                                return microTemplate( itemTemplateSrc, photo );
+                            }
+
+                            // micro templating, sort-of
+                            function microTemplate( src, data ) {
+                                // replace {{tags}} in source
+                                //console.log("in microTemplate : " + src);
+                                src = src.replace( /\{\{([\w\-_\.]+)\}\}/gi, function( match, key ) {
+                                    if(key === "file_name"){
+                                        data.file_name = data.file_name.replace('public', 'storage');
+                                        return data.file_name;                                        
+                                    }
+                                    else if(key === "tags"){
+                                        let tags = data.tags;
+                                        let aTags = "";
+                                        for(i = 0; i < tags.length; i++){
+                                            aTags += "<a target='_blank' href='" + tags[i] + "'>#" + tags[i] + "</a> ";
+                                        }
+                                        return aTags;
+                                    }
+                                });
+                                console.log(src);
+                                return src;
+                            }
+            });
+        </script>
+    </head>
+    <body>
+        <div class="grid">
+            <div class="grid__col-sizer"></div>
+            <div class="grid__gutter-sizer"></div>
+        </div>
+        <div class="page-load-status">
+            <div class="loader-ellips infinite-scroll-request">
+                <span class="loader-ellips__dot"></span>
+                <span class="loader-ellips__dot"></span>
+                <span class="loader-ellips__dot"></span>
+                <span class="loader-ellips__dot"></span>
+            </div>
+            <p class="infinite-scroll-last">End of content</p>
+            <p class="infinite-scroll-error">No more pages to load</p>
+        </div>
+        <!-- .photo-item template HTML -->
+        <script type="text/html" id="photo-item-template">
+            <div class="photo-item">
+              <img class="photo-item__image" src="{{file_name}}" alt="photo-not-found" />
+              <p class="photo-item__caption">
+                    {{tags}}
+              </p>
+            </div>
+        </script>
+    </body>
+</html>
