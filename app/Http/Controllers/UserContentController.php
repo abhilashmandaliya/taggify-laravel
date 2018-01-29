@@ -20,7 +20,7 @@ class UserContentController extends Controller
 
     public function __construct()
     {
-        $this->limit = 100;
+        $this->limit = 5;
     }
 
     /**
@@ -30,11 +30,21 @@ class UserContentController extends Controller
      */
     public function index()
     {
-        
-        request()->all();
+        //DB::connection('mongodb')->enableQueryLog();
         $unique_tags = DB::connection('mongodb')->collection('user_contents')->distinct('tags')->get();
-        $user_contents = DB::connection('mongodb')->collection('user_contents')->paginate($this->limit, ['file_name', 'tags']);
-
+        if(request()->input('tags'))
+        { 
+            $data = request()->all();            
+            $filter_tags = json_decode($data['tags']);
+            //$user_contents = DB::connection('mongodb')->collection('user_contents')->whereIn('tags', $filter_tags)->get();
+            $user_contents = DB::connection('mongodb')->collection('user_contents')->whereIn('tags', $filter_tags)->paginate($this->limit);
+            //return json_encode(DB::connection('mongodb')->getQueryLog());
+            return json_encode($user_contents);
+        }
+        else
+        {
+            $user_contents = DB::connection('mongodb')->collection('user_contents')->paginate($this->limit);
+        }
         return view('user_contents.index', ['unique_tags' => $unique_tags, 'user_contents' => $user_contents]);
     }
 
@@ -58,8 +68,8 @@ class UserContentController extends Controller
     {
         $gcp_vision_api = new GCPVisionAPI();
         $fileName = $request->file('content')->store('public/content');
-        $tags = $this->parseTags($request->input('tags'), $gcp_vision_api->getImageLabels($fileName));
-        //$tags = $this->parseTags($request->input('tags'));
+        //$tags = $this->parseTags($request->input('tags'), $gcp_vision_api->getImageLabels($fileName));
+        $tags = $this->parseTags($request->input('tags'));
         $user_id = $request->input('user_id');
         $created_at = Carbon::now()->toDateTimeString();
         $updated_at = $created_at;
