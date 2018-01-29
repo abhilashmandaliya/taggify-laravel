@@ -1,9 +1,17 @@
 $(document).ready(function(){
 
     function getPath() {
-        return 'http://10.42.0.40/taggify-laravel/public/user_contents?&page={{#}}';
+        var page_string = "?&page={{#}}";
+        var url;
+        if(typeof($('#myurl')[0]) !== "undefined" && $('#myurl')[0] !== null) {
+            url = $("#myurl").data('value');
+        }
+        else {
+            url = 'http://10.42.0.40/taggify-laravel/public/user_contents';            
+        }
+        return url + page_string;
     }
-
+    
     var $grid = $('.grid').masonry({
         itemSelector: '.photo-item',
         columnWidth: '.grid__col-sizer',
@@ -50,7 +58,12 @@ $(document).ready(function(){
     function microTemplate( src, data ) {
         return src.replace( /\{([\w\-_\.]+)\}/gi, function( match, key ) {
             if(key === "file_name"){
-                data.file_name = data.file_name.replace('public', 'storage');
+                if(typeof($('#myurl')[0]) !== "undefined" && $('#myurl')[0] !== null) {
+                    data.file_name = 'http://10.42.0.40/taggify-laravel/public/' + data.file_name.replace('public', 'storage');
+                }
+                else {
+                    data.file_name = data.file_name.replace('public', 'storage');
+                }                
                 return data.file_name;                                        
             }
             else if(key === "tags"){

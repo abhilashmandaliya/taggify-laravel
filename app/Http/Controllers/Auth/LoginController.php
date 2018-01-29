@@ -27,7 +27,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/user_contents?first=true';
 
     /**
      * Create a new controller instance.
@@ -56,7 +56,7 @@ class LoginController extends Controller
         
         if(is_null($device)) // web request
         {
-            return response()->redirectTo($authenticated ? '/home' : '/login');
+            return response()->redirectTo($authenticated ? '/user_contents?first=true' : '/login');
         }
         else if(strcasecmp($device, "android") === 0) // android request
         {

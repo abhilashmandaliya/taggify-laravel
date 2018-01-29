@@ -23,6 +23,9 @@ Auth::routes();
 
 //Route::group(['middleware' => 'auth'], function() {
     Route::Resource('/user_contents', 'UserContentController');
-    Route::get('/home', 'HomeController@index')->name('home');        
+    Route::Resource('/user', 'UserController');
+    Route::get('/home', function () {
+        return redirect('/user_contents?first=true');
+    });
     Route::get('/register', 'Auth\RegisterController@index')->name('register');
 //});

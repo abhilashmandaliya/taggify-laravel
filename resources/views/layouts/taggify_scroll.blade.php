@@ -72,12 +72,16 @@
         <nav class="navbar navbar-default">
                 <div class="container-fluid">
                 <div class="navbar-header">
-                <a class="navbar-brand" href="/taggify-laravel/public">#Taggify</a>
+                @auth
+                        <a class="navbar-brand" href="/taggify-laravel/public/home">#Taggify</a>
+                @else                
+                        <a class="navbar-brand" href="/taggify-laravel/public">#Taggify</a>
+                @endauth
                 </div>
                 <div class="collapse navbar-collapse" id="myNavbar">
                 @auth
                         <ul class="nav navbar-nav">
-                                <li><a href="#">My Uploads</a></li>
+                                <li><a href="/taggify-laravel/public/user/{{ Auth::user()->id }}?first=true">My Uploads</a></li>
                         </ul>
                 @endauth
                 <ul class="nav navbar-nav navbar-right">

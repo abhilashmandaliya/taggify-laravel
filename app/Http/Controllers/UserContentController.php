@@ -30,7 +30,6 @@ class UserContentController extends Controller
      */
     public function index()
     {
-        //DB::connection('mongodb')->enableQueryLog();
         $unique_tags = DB::connection('mongodb')->collection('user_contents')->distinct('tags')->get();
         if(request()->input('tags'))
         { 
@@ -42,7 +41,6 @@ class UserContentController extends Controller
             }
             //$user_contents = DB::connection('mongodb')->collection('user_contents')->whereIn('tags', $filter_tags)->get();
             $user_contents = DB::connection('mongodb')->collection('user_contents')->whereIn('tags', $filter_tags)->paginate($this->limit);
-            //return json_encode(DB::connection('mongodb')->getQueryLog());
             return json_encode($user_contents);
         }
         else
@@ -103,7 +101,7 @@ class UserContentController extends Controller
      */
     public function show(UserContent $userContent)
     {
-        //
+        return json_encode(request()->route('user_content'));
     }
 
     /**
