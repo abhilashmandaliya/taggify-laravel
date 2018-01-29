@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Auth;
 use App\User;
 use App\UserCategory;
 use App\Http\Controllers\Controller;
@@ -94,6 +95,7 @@ class RegisterController extends Controller
 
         if(is_null($device)) // web request
         {
+            Auth::login($user);
             return response()->redirectTo('/home');
         }
         else if(strcasecmp($device, "android") === 0) // android request

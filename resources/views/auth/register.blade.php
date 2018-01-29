@@ -1,17 +1,17 @@
-@extends('layouts.app')
+@extends('layouts.taggify_scroll')
 
 @section('content')
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Register</div>
+                <div class="panel-heading" style="background-color:#4b2836; color: #ecf0f1">Register</div>
 
                 <div class="panel-body">
                     <form class="form-horizontal" method="POST" action="{{ route('register') }}">
                         {{ csrf_field() }}
 
-                        <div class="form-group{{ $errors->has('user_category_id') ? ' has-error' : '' }}">
+                        <!-- <div class="form-group{{ $errors->has('user_category_id') ? ' has-error' : '' }}">
                             <label for="name" class="col-md-4 control-label">User Category</label>
 
                             <div class="col-md-6">
@@ -28,7 +28,7 @@
                                     </span>
                                 @endif
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                             <label for="name" class="col-md-4 control-label">Name</label>

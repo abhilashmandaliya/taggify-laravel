@@ -6,6 +6,20 @@
 
 @section('content')
 
+    <br/>
+    <div class="ui fluid multiple search selection dropdown">
+            <i class="dropdown icon"></i>
+            <div class="default text">Select By Tags</div>
+            <div class="menu">
+                    @foreach($unique_tags as $unique_tag)
+                    <div class="item" data-value="{{ $unique_tag }}">
+                            {{ $unique_tag }}
+                    </div>
+                    @endforeach
+            </div>
+    </div>
+    <br/>
+        
     <div class="grid">
         <div class="grid__col-sizer"></div>
         <div class="grid__gutter-sizer"></div>

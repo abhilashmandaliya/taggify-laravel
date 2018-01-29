@@ -23,23 +23,25 @@ $(document).ready(function(){
             status: '.page-load-status',
             history: false,
         });
-                
-    $grid.on('load.infiniteScroll', function( event, response ) {
-        var data = JSON.parse( response );
-        var itemsHTML = data.data.map( getItemHTML ).join('');
-        var $items = $( itemsHTML );
-        $items.imagesLoaded( function() {
-            //console.log("in imagesLoaded : ");
-            $grid.infiniteScroll( 'appendItems', $items )
-            .masonry( 'appended', $items );
-        })
-    });
-                
-    $grid.data('infiniteScroll').pageIndex = 0;
+    if(typeof($('.grid')[0]) !== "undefined" && $('.grid')[0] !== null)
+    {
+        $grid.on('load.infiniteScroll', function( event, response ) {
+            var data = JSON.parse( response );
+            var itemsHTML = data.data.map( getItemHTML ).join('');
+            var $items = $( itemsHTML );
+            $items.imagesLoaded( function() {
+                //console.log("in imagesLoaded : ");
+                $grid.infiniteScroll( 'appendItems', $items )
+                .masonry( 'appended', $items );
+            })
+        });
+                    
+        $grid.data('infiniteScroll').pageIndex = 0;
 
-    $grid.infiniteScroll('loadNextPage');
+        $grid.infiniteScroll('loadNextPage');
 
-    var itemTemplateSrc = $('#photo-item-template').html();
+        var itemTemplateSrc = $('#photo-item-template').html();
+    }
 
     function getItemHTML( photo ) {
         return microTemplate( itemTemplateSrc, photo );
