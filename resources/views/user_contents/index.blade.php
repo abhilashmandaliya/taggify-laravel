@@ -9,7 +9,7 @@
     <br/>
     <div class="ui fluid multiple search selection dropdown">
             <i class="dropdown icon"></i>
-            <div class="default text">Select By Tags</div>
+            <div class="default text"><b>Select By Tags</b></div>
             <div class="menu">
                     @foreach($unique_tags as $unique_tag)
                     <div class="item" data-value="{{ $unique_tag }}">
@@ -17,6 +17,7 @@
                     </div>
                     @endforeach
             </div>
+            <button type="button" id="tag_search_btn" class="btn btn-primary pull-right">Search</button>
     </div>
     <br/>
         
@@ -44,4 +45,6 @@
             </p>
         </div>
     </script>
+
+    <input type="hidden" id="myurl" data-value="http://10.42.0.40/taggify-laravel/public/user_contents" />
 @endsection

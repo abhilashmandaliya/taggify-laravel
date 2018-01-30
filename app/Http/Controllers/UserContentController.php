@@ -39,8 +39,16 @@ class UserContentController extends Controller
             {
                 $filter_tags = array($data['tags']);
             }
+            if(request()->input('first'))
+            {
+                $_REQUEST['page'] = 0;
+            }
             //$user_contents = DB::connection('mongodb')->collection('user_contents')->whereIn('tags', $filter_tags)->get();
             $user_contents = DB::connection('mongodb')->collection('user_contents')->whereIn('tags', $filter_tags)->paginate($this->limit);
+            if(request()->input('first'))
+            {
+                return view('user_contents.index', ['unique_tags' => $unique_tags, 'user_contents' => $user_contents]);
+            }
             return json_encode($user_contents);
         }
         else

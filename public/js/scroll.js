@@ -1,13 +1,19 @@
 $(document).ready(function(){
 
-    function getPath() {
-        var page_string = "?&page={{#}}";
+    function getPath() {//alert();
+        var page_string = "?page={{#}}";
         var url;
         if(typeof($('#myurl')[0]) !== "undefined" && $('#myurl')[0] !== null) {
+            console.log('in if');
             url = $("#myurl").data('value');
         }
         else {
+            console.log('in else');            
             url = 'http://10.42.0.40/taggify-laravel/public/user_contents';            
+        }
+        if(url.endsWith('&page={{#}}')){
+            $("#myurl").attr('data-value', 'http://10.42.0.40/taggify-laravel/public/user_contents');
+            return url;
         }
         return url + page_string;
     }
@@ -50,6 +56,26 @@ $(document).ready(function(){
 
         var itemTemplateSrc = $('#photo-item-template').html();
     }
+
+    $('#tag_search_btn').click(function(){
+        $('.photo-item').each(function(){
+            $(this).remove();
+        });
+
+        let tags = new Set();
+        $('a.label').each(function(){
+            tags.add($(this).data('value'));
+        });
+        
+        tags = Array.from(tags);
+
+        $grid.data('infiniteScroll').pageIndex = 0;       
+
+        $("#myurl").data('value', 'http://10.42.0.40/taggify-laravel/public/user_contents?first=true&tags=' + JSON.stringify(tags)) + '&page={{#}}';
+        window.location = $("#myurl").data('value');
+
+        $grid.infiniteScroll('loadNextPage');
+    });
 
     function getItemHTML( photo ) {
         return microTemplate( itemTemplateSrc, photo );
