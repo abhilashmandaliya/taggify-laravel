@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
-    function getPath() {//alert();
-        var page_string = "?page={{#}}";
+    function getPath() {
+        var page_string = "page={{#}}";
         var url;
         if(typeof($('#myurl')[0]) !== "undefined" && $('#myurl')[0] !== null) {
             console.log('in if');
@@ -9,13 +9,12 @@ $(document).ready(function(){
         }
         else {
             console.log('in else');            
-            url = 'http://10.42.0.40/taggify-laravel/public/user_contents';            
+            url = 'http://10.42.0.40/taggify-laravel/public/user_contents';
         }
-        if(url.endsWith('&page={{#}}')){
-            $("#myurl").attr('data-value', 'http://10.42.0.40/taggify-laravel/public/user_contents');
-            return url;
+        if(url.indexOf('?') > -1) {
+            return url + '&' + page_string;
         }
-        return url + page_string;
+        return url + '?' + page_string;
     }
     
     var $grid = $('.grid').masonry({
@@ -96,7 +95,7 @@ $(document).ready(function(){
                 let tags = data.tags;
                 let aTags = "";
                 for(i = 0; i < tags.length; i++){
-                    aTags += "<a target='_blank' href='user_contents/?tags=" + tags[i] + "'><span style='font-weight: bold; text-shadow: 0 0 3px #FF0000, 0 0 5px #0000FF;'>#" + tags[i] + "</a> ";
+                    aTags += "<a target='_blank' href='/taggify-laravel/public/user_contents/?first=true&tags=" + tags[i] + "'><span style='font-weight: bold; text-shadow: 0 0 3px #FF0000, 0 0 5px #0000FF;'>#" + tags[i] + "</a> ";
                 }
                 return aTags;
             }

@@ -46,5 +46,9 @@
         </div>
     </script>
 
-    <input type="hidden" id="myurl" data-value="http://10.42.0.40/taggify-laravel/public/user_contents" />
+    @isset($tags)
+        <input type="hidden" id="myurl" data-value="http://10.42.0.40/taggify-laravel/public/user_contents/?tags={{ $tags }}" />
+    @else
+        <input type="hidden" id="myurl" data-value="http://10.42.0.40/taggify-laravel/public/user_contents" />
+    @endisset
 @endsection
