@@ -45,6 +45,6 @@
         </div>
     </script>
 
-    <input type="hidden" id="myurl" data-value="http://10.42.0.40/taggify-laravel/public/user/{{ Auth::user()->id }}" />
+    <input type="hidden" id="myurl" data-value="/user/{{ Auth::user()->id }}" />
 
 @endsection

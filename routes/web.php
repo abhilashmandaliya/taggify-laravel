@@ -28,4 +28,5 @@ Auth::routes();
         return redirect('/user_contents?first=true');
     });
     Route::get('/register', 'Auth\RegisterController@index')->name('register');
+    Route::get('/getTagWiseCount', 'DataAnalysisController@getTagWiseCount');
 //});

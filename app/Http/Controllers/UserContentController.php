@@ -39,6 +39,11 @@ class UserContentController extends Controller
             {
                 $filter_tags = array($data['tags']);
             }
+            $temp = $filter_tags;
+            $filter_tags = array();
+            for ($i = 0; $i < count($temp); ++$i) {
+                array_push($filter_tags, (string)$temp[$i]);                
+            }
             if(request()->input('first'))
             {
                 $_REQUEST['page'] = 0;
@@ -82,8 +87,8 @@ class UserContentController extends Controller
     {
         $gcp_vision_api = new GCPVisionAPI();
         $fileName = $request->file('content')->store('public/content');
-        //$tags = $this->parseTags($request->input('tags'), $gcp_vision_api->getImageLabels($fileName));
-        $tags = $this->parseTags($request->input('tags'));
+        $tags = $this->parseTags($request->input('tags'), $gcp_vision_api->getImageLabels($fileName));
+        //$tags = $this->parseTags($request->input('tags'));
         $user_id = $request->input('user_id');
         $created_at = Carbon::now()->toDateTimeString();
         $updated_at = $created_at;
@@ -156,6 +161,17 @@ class UserContentController extends Controller
             if(strlen($tag) > 0)
             {
                 array_push($mobile_tags_final, preg_replace('/\s+/', '', $tag));
+            }
+        }
+
+        $temp =  $gcp_tags;
+        $gcp_tags = array();
+
+        foreach ($temp as $tag) 
+        {
+            if(strlen($tag) > 0)
+            {
+                array_push($gcp_tags, preg_replace('/\s+/', '', $tag));
             }
         }
 

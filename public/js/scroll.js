@@ -4,12 +4,12 @@ $(document).ready(function(){
         var page_string = "page={{#}}";
         var url;
         if(typeof($('#myurl')[0]) !== "undefined" && $('#myurl')[0] !== null) {
-            console.log('in if');
+            // console.log('in if');
             url = $("#myurl").data('value');
         }
         else {
-            console.log('in else');            
-            url = 'http://10.42.0.40/taggify-laravel/public/user_contents';
+            // console.log('in else');            
+            url = '/user_contents';
         }
         if(url.indexOf('?') > -1) {
             return url + '&' + page_string;
@@ -70,7 +70,7 @@ $(document).ready(function(){
 
         $grid.data('infiniteScroll').pageIndex = 0;       
 
-        $("#myurl").data('value', 'http://10.42.0.40/taggify-laravel/public/user_contents?first=true&tags=' + JSON.stringify(tags)) + '&page={{#}}';
+        $("#myurl").data('value', '/user_contents?first=true&tags=' + JSON.stringify(tags)) + '&page={{#}}';
         window.location = $("#myurl").data('value');
 
         $grid.infiniteScroll('loadNextPage');
@@ -84,7 +84,7 @@ $(document).ready(function(){
         return src.replace( /\{([\w\-_\.]+)\}/gi, function( match, key ) {
             if(key === "file_name"){
                 if(typeof($('#myurl')[0]) !== "undefined" && $('#myurl')[0] !== null) {
-                    data.file_name = 'http://10.42.0.40/taggify-laravel/public/' + data.file_name.replace('public', 'storage');
+                    data.file_name = '/' + data.file_name.replace('public', 'storage');
                 }
                 else {
                     data.file_name = data.file_name.replace('public', 'storage');
@@ -95,7 +95,7 @@ $(document).ready(function(){
                 let tags = data.tags;
                 let aTags = "";
                 for(i = 0; i < tags.length; i++){
-                    aTags += "<a target='_blank' href='/taggify-laravel/public/user_contents/?first=true&tags=" + tags[i] + "'><span style='font-weight: bold; text-shadow: 0 0 3px #FF0000, 0 0 5px #0000FF;'>#" + tags[i] + "</a> ";
+                    aTags += "<a target='_blank' href='/user_contents/?first=true&tags=" + tags[i] + "'><span style='font-weight: bold; text-shadow: 0 0 3px #FF0000, 0 0 5px #0000FF;'>#" + tags[i] + "</a> ";
                 }
                 return aTags;
             }
