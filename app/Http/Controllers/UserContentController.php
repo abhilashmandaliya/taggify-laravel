@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\UserContent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use GCPVisionAPI;
 
@@ -86,7 +87,8 @@ class UserContentController extends Controller
     public function store(Request $request)
     {
         $gcp_vision_api = new GCPVisionAPI();
-        $fileName = $request->file('content')->store('public');
+        $fileName = $request->file('content')->store('/');
+        Storage::move('$fileName', 'public/$fileName');
         //$tags = $this->parseTags($request->input('tags'), $gcp_vision_api->getImageLabels($fileName));
         $tags = $this->parseTags($request->input('tags'));
         $user_id = $request->input('user_id');
