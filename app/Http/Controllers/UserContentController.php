@@ -86,7 +86,7 @@ class UserContentController extends Controller
     public function store(Request $request)
     {
         $gcp_vision_api = new GCPVisionAPI();
-        $fileName = $request->file('content')->store('/');
+        $fileName = $request->file('content')->store('public/');
         //$tags = $this->parseTags($request->input('tags'), $gcp_vision_api->getImageLabels($fileName));
         $tags = $this->parseTags($request->input('tags'));
         $user_id = $request->input('user_id');
