@@ -88,7 +88,7 @@ class UserContentController extends Controller
     {
         $gcp_vision_api = new GCPVisionAPI();
         $fileName = $request->file('content')->store('/');
-        Storage::move('$fileName', 'public/$fileName');
+        Storage::move("$fileName", "public/$fileName");
         //$tags = $this->parseTags($request->input('tags'), $gcp_vision_api->getImageLabels($fileName));
         $tags = $this->parseTags($request->input('tags'));
         $user_id = $request->input('user_id');
