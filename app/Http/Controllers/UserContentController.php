@@ -86,9 +86,10 @@ class UserContentController extends Controller
     public function store(Request $request)
     {
         $gcp_vision_api = new GCPVisionAPI();
-        $fileName = $request->file('content')->store('public/content');
-        $tags = $this->parseTags($request->input('tags'), $gcp_vision_api->getImageLabels($fileName));
-        //$tags = $this->parseTags($request->input('tags'));
+        $fileName = $request->file('content')->store('/');
+        return  $fileName;
+        //$tags = $this->parseTags($request->input('tags'), $gcp_vision_api->getImageLabels($fileName));
+        $tags = $this->parseTags($request->input('tags'));
         $user_id = $request->input('user_id');
         $created_at = Carbon::now()->toDateTimeString();
         $updated_at = $created_at;

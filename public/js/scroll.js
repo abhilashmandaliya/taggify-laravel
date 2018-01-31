@@ -82,14 +82,8 @@ $(document).ready(function(){
      
     function microTemplate( src, data ) {
         return src.replace( /\{([\w\-_\.]+)\}/gi, function( match, key ) {
-            if(key === "file_name"){
-                if(typeof($('#myurl')[0]) !== "undefined" && $('#myurl')[0] !== null) {
-                    data.file_name = '/' + data.file_name.replace('public', 'storage');
-                }
-                else {
-                    data.file_name = data.file_name.replace('public', 'storage');
-                }                
-                return data.file_name;                                        
+            if(key === "file_name"){             
+                return '/storage/' + data.file_name;                                        
             }
             else if(key === "tags"){
                 let tags = data.tags;
