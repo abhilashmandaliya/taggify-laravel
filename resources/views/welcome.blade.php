@@ -3,7 +3,7 @@
 @section('content')
     <div class="flex-center position-ref full-height">
             <div class="content-home-center">
-                    <div class="title m-b-md">
+                    <div class="title-home-page m-b-md">
                             <a href="/taggify-laravel/public"> #Taggify </a>
                     </div>
             </div>

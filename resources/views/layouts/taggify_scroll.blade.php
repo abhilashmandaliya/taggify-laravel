@@ -80,6 +80,7 @@
                 @auth
                         <ul class="nav navbar-nav">
                                 <li><a href="/user/{{ Auth::user()->id }}?first=true">My Uploads</a></li>
+                                <li><a href="/getTagWiseCount">Tag Wise Count</a></li>
                         </ul>
                 @endauth
                 <ul class="nav navbar-nav navbar-right">

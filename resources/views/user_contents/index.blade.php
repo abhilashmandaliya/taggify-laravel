@@ -9,7 +9,7 @@
     <br/>
     <div class="ui fluid multiple search selection dropdown">
             <i class="dropdown icon"></i>
-            <div class="default text"><b>Select By Tags</b></div>
+            <div class="default text"><b>Search By Tags</b></div>
             <div class="menu">
                     @foreach($unique_tags as $unique_tag)
                     <div class="item" data-value="{{ $unique_tag }}">
