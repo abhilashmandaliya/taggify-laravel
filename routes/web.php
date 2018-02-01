@@ -30,4 +30,5 @@ Auth::routes();
     Route::get('/register', 'Auth\RegisterController@index')->name('register');
     Route::get('/getTagWiseCount', 'DataAnalysisController@getDistinctTags');
     //Route::get('/getDistinctTags', 'DataAnalysisController@getDistinctTags');
+    Route::get('/translateDemo', 'TranslatorController@translate');
 //});

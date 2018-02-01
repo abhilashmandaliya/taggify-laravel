@@ -31,6 +31,14 @@ class UserContentController extends Controller
      */
     public function index()
     {
+        if(request()->input('device'))
+        {
+            return json_encode([
+                                'status' => 200,
+                                'message' => 'Success! Get All user contents',
+                                'data' => UserContent::get()
+                                ]);
+        }
         $unique_tags = DB::connection('mongodb')->collection('user_contents')->distinct('tags')->get();
         if(request()->input('tags'))
         { 
